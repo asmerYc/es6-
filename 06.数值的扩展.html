@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>数值的扩展</title>
+</head>
+<body>
+  
+</body>
+<script>
+//1.Number.isFinite().Number.isNaN()
+
+//Number.isFinite()用来检查一个数值是否为有限的(finite),即不是Infinity
+Number.isFinite(15) //true
+Number.isFinite(0.8) //true
+Number.isFinite(NaN) //false
+Number.isFinite(Infinity) //false
+Number.isFinite(-Infinity) //false
+Number.isFinite('foo') //false
+Number.isFinite('15') //false
+Number.isFinite(true) //false
+
+//注意:如果参数类型不是数值.Number.isFinite一律返回false
+
+
+//Number.isNaN()用来检查一个值是否为NaN
+Number.isNaN(NaN)
+Number.isNaN(15)
+Number.isNaN('15')
+Number.isNaN(true)
+Number.isNaN(9/NaN)
+Number.isNaN('true' / 0)
+Number.isNaN('true' / 'true')
+//如果参数类型不是NaN,Number.isNaN一律返回false
+//他们与传统的全局方法isFinite()和isNaN()的区别在于,传统方法先调用Number()将非数据的值转为数值
+//在进行判断,而上述两个方法只对数值有效Number.isFinite对于非数值一律返回false.Number.isNaN只有对于
+//NaN才返回true,非NaN一律返回false
+
+isFinite(25) //true
+isFinite('25') //true
+Number.isFinite(25) //true
+Number.isFinite('25') //false
+
+isNaN(NaN) //true
+isNaN('NaN') //true
+Number.isNaN(NaN); //true
+Number.isNaN('NaN'); //false
+Number.isNaN(1); //false
+
+//3.Number.parseInt(),Number.parseFloat()
+//es6将全局方法parseInt()和parseFLoat()移植到Number对象上面,行为完全保持不变,
+//目的:逐步减少全局性方法,使得语言逐渐模块化
+
+parseInt('12.34') //12
+parseFloat('12.34@@') //12.34
+
+//es6的写法
+Number.parseInt('12.34'); //12
+Number.parseFloat('12.34#$'); //12.34
+
+//Number.isInterger()用来判断一个数值是否为整数
+Number.isInteger(25) // true
+Number.isInteger(25.1) // false
+
+//JavaScript内部,证书和浮点数采用的是同样的存储方法所以25和25.0被视为同一个值
+Number.isInteger(25) // true
+Number.isInteger(25.0) // true
+//如果参数Number.isInteger() // false
+Number.isInteger(null) // false
+Number.isInteger('15') // false
+Number.isInteger(true) // false不是整数.Number.isInteger返回false
+
+
+//安全整数和Number.isSafeInteger()
+//Js能够准确表示的整数范围在-2^53到2^53之前(不含两个端点)超过这个范围,无法精确表示政治
+Math.pow(2,53) //9007199254740992
+9007199254740992
+9007199254740993
+Math.pow(2,53) === Math.pow(2,53) + 1; //true
+//因为超过2^53的值 js就无法识别  所以就默认相等
+</script>
+</html>

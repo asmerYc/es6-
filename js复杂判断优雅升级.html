@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>js复杂判断优雅升级写法</title>
+  <style>
+    html,body {
+      margin:0;
+      padding:0
+    }
+    ul,li {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+    li {
+      float: left;
+      width: 100px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+    }
+    .container {
+      height: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+    </ul>
+  </div>
+</body>
+<script>
+  window.onload = function(){
+    let lis = document.getElementsByTagName("li")
+    let colors = ["red","blue","green","orange","purple","yellow"]
+    for(let i=0;i<lis.length;i++){
+      lis[i].style.background = colors[i];
+      lis[i].onclick = function() {
+        // clickBtn(i+1);
+        imporveIdentifyClick('guest',i+1)
+      }
+    }
+  }
+//前提:有时候 我们需要判断多个状态 在不同的状态去处理不同的逻辑,一般我们会利用if...else...或者switch...case 来实现多个条件判断
+//但是随着逻辑复杂度的增加,代码中的的条件将会变得越来越臃肿,难以维护和辨认
+
+/**
+ * 按钮点击事件
+ * @param {number} status 活动状态：1 开团进行中 2 开团失败 3 商品售罄 4 开团成功 5 系统取消
+ */
+function sendLog(string) {
+  console.log(string)
+}
+
+function jumpTo(value) {
+  console.log(value);
+}
+
+const clickBtn = (status) => {
+  if(status === 1) {
+    sendLog('processing')
+    jumpTo('IndexPage')
+  } else if( status === 2) {
+    sendLog('fail')
+    jumpTo('FailPage')
+  } else if (status === 3) {
+    sendLog('fail')
+    jumpTo('FailPage')
+  } else if (status === 4) {
+    sendLog('success')
+    jumpTo('SuccessPage')
+  } else if (status === 5) {
+    sendLog('cancel')
+    jumpTo('CancelPage')
+  } else {
+    sendLog('other')
+    jumpTo('Index')
+  }
+}
+
+//switch改进方案
+const switchBtn = (status) => {
+  switch(status) {
+    case 1:
+    sendLog('processing')
+    jumpTo('IndexPage')
+    break
+    case 2:
+    case 3:
+    sendLog('fail')
+    jumpTo('FailPage')
+    break;
+    case 4:
+    sendLog('success')
+    jumpTo('SuccessPage')
+    break;
+    case 5:
+    sendLog('cancel')
+    jumpTo('CancelPage')
+    break;
+    default:
+    sendLog('other')
+    jumpTo('Index')
+    break;
+  }
+}
+
+//继续改进  状态固定的时候 
+const actions = {
+  "1":['processing','IndexPage'],
+  "2":['fail','FailPage'],
+  "3":['fail','FailPage'],
+  "4":['success','SuccessPage'],
+  "5":['cancel','CancelPage'],
+  "default":['other','Index'],
+}
+const actionClick = (status) => {
+  let action = actions[status] || actions["default"],
+  logName = action[0],
+  pageName = action[1];
+  sendLog(logName);
+  jumpTo(pageName);
+}
+//转换成map结构
+
+const actiosMaps = new Map([
+  [1, ['processing','IndexPage']],
+  [2, ['fail','FailPage']],
+  [3, ['fail','FailPage']],
+  [4, ['success','SuccessPage']],
+  [5, ['cancel','CancelPage']],
+  ['default', ['other','Index']]
+])
+/**
+ * 按钮点击事件
+ * @param {number} status 活动状态：1 开团进行中 2 开团失败 3 商品售罄 4 开团成功 5 系统取消
+ */
+ const actiosMapClick = (status)=>{
+  let action = actiosMaps.get(status) || actiosMaps.get('default')
+  sendLog(action[0])
+  jumpTo(action[1])
+}
+
+
+//问题升级
+//如果在状态判断之前 我们还需要进行身份判断  按照最上边的逻辑 可能又得加一层判断,然后在进行状态判断.
+/**
+ * 按钮点击事件
+ * @param {number} status 活动状态：1开团进行中 2开团失败 3 开团成功 4 商品售罄 5 有库存未开团
+ * @param {string} identity 身份标识：guest客态 master主态
+ */
+ const onIndentyClick = (status,identity)=>{
+  if(identity == 'guest'){
+    if(status == 1){
+      //do sth
+    }else if(status == 2){
+      //do sth
+    }else if(status == 3){
+      //do sth
+    }else if(status == 4){
+      //do sth
+    }else if(status == 5){
+      //do sth
+    }else {
+      //do sth
+    }
+  }else if(identity == 'master') {
+    if(status == 1){
+      //do sth
+    }else if(status == 2){
+      //do sth
+    }else if(status == 3){
+      //do sth
+    }else if(status == 4){
+      //do sth
+    }else if(status == 5){
+      //do sth
+    }else {
+      //do sth
+    }
+  }
+}
+//继续改进
+
+const actionsIdentify = new Map([
+  ['guest_1', ()=>{console.log("guest_1")}],
+  ['guest_2', ()=>{console.log("guest_2")}],
+  ['guest_3', ()=>{console.log("guest_3")}],
+  ['guest_4', ()=>{console.log("guest_4")}],
+  ['guest_5', ()=>{console.log("guest_5")}],
+  ['master_1', ()=>{console.log("master_1")}],
+  ['master_2', ()=>{console.log("master_2")}],
+  ['master_3', ()=>{console.log("master_3")}],
+  ['master_4', ()=>{console.log("master_4")}],
+  ['master_5', ()=>{console.log("master_5")}],
+  ['default', ()=>{console.log("default")}],
+])
+/**
+ * 按钮点击事件
+ * @param {string} identity 身份标识：guest客态 master主态
+ * @param {number} status 活动状态：1 开团进行中 2 开团失败 3 开团成功 4 商品售罄 5 有库存未开团
+ */
+ const imporveIdentifyClick = (identity,status)=>{
+  let action = actionsIdentify.get(`${identity}_${status}`) || actions.get('default')
+  action()
+  // action.call(this)
+}
+
+
+
+
+
+
+</script>
+</html>

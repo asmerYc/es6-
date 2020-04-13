@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>common方法的封装</title>
+</head>
+<body>
+  
+</body>
+<script>
+  //1.分割指定长度的元素数组
+  function chunklist(list,size=1) {
+    const newChunlk = [];
+    const tmp = [...list];
+    if(size <= 0) {
+      return newChunlk
+    }
+    while(tmp.length) {
+      newChunlk.push(tmp.splice(0,size)) //此处的数组切割方法要保证数组每次切割后继续使用
+    }
+    return newChunlk;
+  }
+console.log(chunklist([1,2,3,4,5,6],5))
+
+
+//2.获取数组的交集
+// const intersection = (list, ...args) => list.filter(item => args.every(list => list.includes(item)))
+
+function intersection(list,...args) {
+  return list.filter(item => args.every(obj =>obj.includes(item) ))
+}
+function intersectionImprove(list,args) {
+  return list.filter(item => args.includes(item));
+}
+//思路:相当于双重循环,用list中的每一项跟后边每一个数组的项目循环比较,如果args的单项中包含list中的一项,就把当前项返回一个新的数组
+console.log(intersection([2,1],[2,3],[3,4]))
+console.log(intersectionImprove([2,1],[3,4],[2,3]))
+
+
+</script>
+</html>

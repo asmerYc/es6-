@@ -1,3 +1,5 @@
+//判断一个字符串中的每个字符距离最近目标字母的距离
+
 let s = 'loveleetcode';
 let c = 'e';
 function shorttestTochar(s,c){

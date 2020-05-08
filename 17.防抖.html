@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>防抖debounce</title>
+  <style>
+    #container{
+        width: 100%; height: 200px; line-height: 200px; text-align: center; color: #fff; background-color: #444; font-size: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+</body>
+<script>
+  //防抖动的原理 就是你尽管出发,但是我一定是在事件触发n秒后才执行,如果你在一个事件出发的n秒内又触发了这个事件,那我就以新的事件的时间为准,n秒后才执行,总之,就是要等你触发玩事件n秒
+  //内不在触发事件  我才执行
+  var count = 1;
+var container = document.getElementById('container');
+
+function getUserAction() {
+    container.innerHTML = count++;
+};
+
+
+//防抖动  第一版
+function debounce(func,wait){
+  var timeout;
+  return function() {
+    clearTimeout(timeout)
+    timeout = setTimeout(func,wait)
+  }
+}
+
+// 第二版本,改变This指向
+function debounce1 (func,wait) {
+  var timeout;
+  return function () {
+    var context = this;
+    clearTimeout(timeout)
+    timeout = setTimeout(function(){
+      func.apply(context);
+    },wait)
+  }
+
+}
+container.onmousemove = debounce(getUserAction,1000)
+</script>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>promise</title>
+</head>
+<body>
+  
+</body>
+<script>
+    //初识promise
+
+    // const promise = new Promise(function(resolve,reject){
+    //   if('异步操作成功') {
+    //     resolve(value)
+    //   } else {
+    //     reject(error)
+    //   }
+    // })
+
+    //简单的例子
+    // function timeout(ms) {
+    //   return new Promise(function(resolve,reject){
+    //     setTimeout(resolve,ms,'done')
+    //   })
+    // }
+    // timeout(100).then(res => {
+    //   console.log(res)
+    // })
+
+    //promise新建后就会立即执行
+    // let promise = new Promise(function(resolve,reject) {
+    //   console.log('promise');
+    //   resolve()
+    // })
+    // promise.then(res => {
+    //   console.log('resolved');
+    // })
+
+    // console.log('Hi')
+
+    //3.使用Promise对象实现的Ajax操作的例子
+
+    // const getJSON = function(url){
+    //   const promise = new Promise(function(resolve,reject){
+    //     const handler = function() {
+    //       if (this.readyState !== 4) {return;}
+    //       if (this.status === 200) {
+    //         resolve(this.response);
+    //       } else {
+    //         reject(new Error(this.statusText));
+    //       }
+    //     }
+    //     const client = new XMLHttpRequest();
+    //     client.open('GET',url);
+    //     client.onreadystatechange = handler;
+    //     client.responseType = "json";
+    //     client.setRequesentHeader("Accept", "application/json");
+    //     client.send();
+    //   })
+    //   return promise;
+    // }
+
+    //4.resolve函数的参数除了正常的值意外,也可能是另外的一个promise
+    // const p1 = new Promise(function(resolve,reject) {
+    //   resolve('哈哈')
+    // })
+    // const p2 = new Promise(function(resolve,reject) {
+    //   resolve(p1)
+    // })
+    // p2.then(res => {
+    //   console.log(res);
+    // }) 
+
+    //上边的实例说明了p1的状态决定了p2额状态,如果p1的状态是pending那么p2的回调函数就会等待p1的状态改变;
+    //如果p1的状态已经是resolve或者reject,那么p2也会立即执行
+    // const p1 = new Promise(function(resolve,reject){
+    //   setTimeout(() => reject(new Error('fail')),3000)
+    // })
+    // const p2  = new Promise(function(resolve,reject) {
+    //   setTimeout(() => resolve(p1),1000)
+    // })
+    // p2.then(res => {
+    //   console.log(res)
+    // }).catch(error => console.log(error))
+
+    //调用resolve和reject并不会中介Promise的参数函数的执行
+    // new Promise((resolve, reject) => {
+    //   resolve(1);
+    //   console.log(2)
+    // }).then(res => {
+    //   console.log(res);
+    // })
+
+    //Promise.all()
+      const p1 = new Promise(function(resolve,reject){
+        resolve('哈哈')
+      })
+      const p2 = new Promise(function(resolve,reject){
+        resolve("嘿嘿")
+      })
+      const p3 = new Promise(function(resolve,reject){
+        resolve("啦啦")
+      })
+      Promise.all([p1,p2,p3]).then(res => {
+        console.log(res)
+      })
+</script>
+</html>

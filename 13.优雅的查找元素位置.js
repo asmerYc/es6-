@@ -1,0 +1,16 @@
+let arr = [1, 3, 5, 7, 9];
+let index = arr.findIndex((item) => item > 10);
+console.log(index);
+
+function findIndex(array, predicate, context) {
+  for (var i = 0; i < array.length; i++) {
+    if (predicate.call(context, array[i], i, array)) return i;
+  }
+  return -1;
+}
+
+console.log(
+  findIndex([1, 2, 3, 4], function (item, i, array) {
+    if (item == 3) return true;
+  })
+);

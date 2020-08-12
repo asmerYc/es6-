@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-03-10 10:56:34
+ * @LastEditTime: 2020-08-12 14:13:11
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /es6-/05.字符串的新增方法.html
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,6 +27,16 @@
   console.log(s.startsWith('H')) //true   
   console.log(s.endsWith('!'))    //true
   console.log(s.includes('Hello'))//true
+
+  //这三个方法都支持第二个参数，表示开始搜索的位置。
+
+  let s = 'Hello world!';
+
+  s.startsWith('world', 6) // true
+  s.endsWith('Hello', 5) // true
+  s.includes('Hello', 6) // false
+
+  //使用第二个参数n时，endsWith的行为与其他两个方法有所不同。它针对前n个字符，而其他两个方法针对从第n个位置直到字符串结束。
 
 //repeat repeat方法返回一个新字符串,表示将原字符串重复n次
   'x'.repeat(3) //'xxx'

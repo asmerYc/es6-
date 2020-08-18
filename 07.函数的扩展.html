@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-03-13 16:15:14
- * @LastEditTime: 2020-08-15 11:23:05
+ * @LastEditTime: 2020-08-18 09:45:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /es6-/07.函数的扩展.html
@@ -49,6 +49,29 @@ function add(...values) {
   return sum;
 }
 console.log(add(2,5,3))
+
+//下面是一个rest代替arguments变量的例子
+//arguments 变量的写法
+function sortNumbers() {
   
+  return Array.prototype.slice.call(arguments).sort();
+}
+//rest参数的写法
+const sortNumbers1 = (...numbers) => numbers.sort()
+//arguments对象不是数组，而是一个类似数组的对象。所以为了使用数组的方法，必须使用Array.prototype.slice.call先将其转为数组。rest 参数就不存在这个问题，它就是一个真正的数组，数组特有的方法都可以使用。下面是一个利用 rest 参数改写数组push方法的例子。
+function push(array,...items) {
+  items.forEach(function(item){
+    array.push(item);
+    console.log(item)
+  })
+}
+var a = [];
+push(a,1,2,3);
+
+//使用箭头函数时候应该要注意的几个点
+//1.函数体内的This对象,就是定义时所在的对象,而不是使用时所在的对象
+//2.不可以当作构造函数,也就是说,不可以使用New命令,否则会抛出一个错误
+//3.不可以使用arguments对象,该对象在函数体内不存在,如果要用,可以使用rest参数替换
+//4.不可以使用Yield命令,因此箭头函数不能用作Generator函数
 </script>
 </html>
